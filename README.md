@@ -99,7 +99,7 @@ Anda juga dapat memberikan ulasan langsung melalui [form ulasan kami](https://ai
 
 ## Dokumentasi Tambahan
 
-Untuk dokumentasi lebih lanjut tentang penggunaan dan cara deploy BookFinderBot, silakan lihat [dokumentasi lengkap](https://github.com/1amkaizen/BookFinderBot/wiki).
+Untuk dokumentasi lebih lanjut tentang penggunaan dan cara deploy BookFinderBot, silakan lihat [dokumentasi lengkap](https://github.com/1amkaizen/BookFinderBot-webhook/wiki).
 
 ## Lisensi
 
