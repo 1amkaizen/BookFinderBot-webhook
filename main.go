@@ -2,10 +2,12 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -346,6 +348,7 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
+
 	// Mendapatkan URL webhook dari environment variables
 	webhookURL := os.Getenv("WEBHOOK_URL")
 	if webhookURL == "" {
@@ -379,10 +382,6 @@ func main() {
 
 	log.Println("Webhook berhasil diatur")
 
-
-
-
-	
 	bot.Debug = true
 
 	// Inisialisasi GoFiber
