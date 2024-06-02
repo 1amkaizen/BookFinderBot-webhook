@@ -33,6 +33,7 @@ Untuk mengatur variabel lingkungan yang diperlukan, buatlah file bernama `.env` 
 ```
 TELEGRAM_BOT_TOKEN=TOKEN_ANDA_DISINI
 ADDR=:3000
+WEBHOOK_URL=https://webhookurl.app/webhook
 ```
 
 Ganti `TOKEN_ANDA_DISINI` dengan token bot Telegram Anda yang diperoleh dari BotFather. Anda juga dapat mengubah port `ADDR` sesuai kebutuhan Anda.
@@ -98,7 +99,7 @@ Anda juga dapat memberikan ulasan langsung melalui [form ulasan kami](https://ai
 
 ## Dokumentasi Tambahan
 
-Untuk dokumentasi lebih lanjut tentang penggunaan dan pengembangan BookFinderBot, silakan lihat [dokumentasi lengkap](https://github.com/1amkaizen/BookFinderBot/wiki).
+Untuk dokumentasi lebih lanjut tentang penggunaan dan cara deploy BookFinderBot, silakan lihat [dokumentasi lengkap](https://github.com/1amkaizen/BookFinderBot/wiki).
 
 ## Lisensi
 
