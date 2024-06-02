@@ -2,8 +2,16 @@
 
 
 <div align="center">
-<img src="https://github.com/1amkaizen/BookFinderBot/blob/main/logobot.jpeg" alt="logo" width="300" >
+    <img loading="lazy" width="30px" src="https://github.com/montasim/montasim/blob/main/media/icons/code.png " alt="code png" />
+    <img loading="lazy" src="https://readme-typing-svg.demolab.com?font=Poppins&weight=700&size=30&duration=1&pause=1&color=add8e6&center=true&vCenter=true&repeat=false&width=395&height=29&lines=BookFinderBot" alt="hello nice to meet you svg" />
+    <img loading="lazy" width="30px" src="https://github.com/montasim/montasim/blob/main/media/icons/layers.png " alt="layers png" />
 </div>
+
+<div align="center">
+  <img src="https://media.giphy.com/media/mAgG12Pk85e1mc31HJ/giphy.gif" width="100px"/>
+</div>
+
+
 
 BookFinderBot(webhook) adalah bot pencari Ebook & Buku yang dibangun menggunakan Go, Fiber, dan Telegram Bot API. Bot ini memungkinkan pengguna untuk mencari Ebook dan Buku berdasarkan judul atau topik tertentu, serta memberikan link ulasan produk yang diminta.
 
