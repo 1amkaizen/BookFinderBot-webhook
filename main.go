@@ -346,7 +346,43 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
+	// Mendapatkan URL webhook dari environment variables
+	webhookURL := os.Getenv("WEBHOOK_URL")
+	if webhookURL == "" {
+		log.Fatal("WEBHOOK_URL tidak diatur")
+	}
 
+	// Membuat payload untuk pengaturan webhook
+	payload := struct {
+		URL string `json:"url"`
+	}{
+		URL: webhookURL,
+	}
+
+	// Mengubah payload menjadi format JSON
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		log.Fatal("Gagal mengonversi payload ke JSON:", err)
+	}
+
+	// Mengirim permintaan HTTP POST untuk mengatur webhook
+	resp, err := http.Post("https://api.telegram.org/bot"+botToken+"/setWebhook", "application/json", bytes.NewBuffer(payloadBytes))
+	if err != nil {
+		log.Fatal("Gagal mengirim permintaan set webhook:", err)
+	}
+	defer resp.Body.Close()
+
+	// Mengecek kode status respons
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("Gagal mengatur webhook. Kode status: %d", resp.StatusCode)
+	}
+
+	log.Println("Webhook berhasil diatur")
+
+
+
+
+	
 	bot.Debug = true
 
 	// Inisialisasi GoFiber
