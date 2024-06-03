@@ -13,13 +13,18 @@ import (
 	"time"
 
 	datauser "github.com/1amkaizen/BookFinder/user"
+	"github.com/sirupsen/logrus"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
 
-// Product represents a product with multiple affiliate links
+// ANSI escape codes for coloring
+const (
+	Reset = "\033[0m"
+	Green = "\033[32m"
+) // Product represents a product with multiple affiliate links
 type Product struct {
 	Nama  string            `json:"name"`
 	Links map[string]string `json:"links"`
@@ -218,15 +223,49 @@ func webhook(app *fiber.App, bot *tgbotapi.BotAPI, products []Product, reviewLin
 			return nil
 		}
 
+		// Log informasi pengguna
+		userInfo := update.Message.From
+		logMessage := fmt.Sprintf(
+			"%sUsername: %s%s\n%sUser ID: %d%s\n%sChat ID: %d%s\n%sMessage: %s%s",
+			Green, userInfo.UserName, Reset,
+			Green, userInfo.ID, Reset,
+			Green, update.Message.Chat.ID, Reset,
+			Green, update.Message.Text, Reset,
+		)
+		logrus.Info(logMessage)
+
 		currenttime := time.Now()
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+
+		// Dapatkan foto profil pengguna
+		userProfilePhotos, err := bot.GetUserProfilePhotos(tgbotapi.UserProfilePhotosConfig{UserID: userInfo.ID})
+		if err != nil {
+			logrus.Error("Failed to get user profile photos:", err)
+			return err
+		}
+
+		var profilePhotoURL string
+		if len(userProfilePhotos.Photos) > 0 {
+			photo := userProfilePhotos.Photos[0][0]
+			fileID := photo.FileID
+			file, err := bot.GetFile(tgbotapi.FileConfig{FileID: fileID})
+			if err != nil {
+				logrus.Error("Failed to get file info:", err)
+				return err
+			}
+			profilePhotoURL = fmt.Sprintf("https://api.telegram.org/file/bot%s/%s", bot.Token, file.FilePath)
+		}
 
 		// Logika tanggapan terhadap pesan
 		switch update.Message.Text {
 		case "/start":
 			// Tanggapan untuk perintah /start
 			msg.Text = "📚 Selamat datang di BookFinderBot! Saya adalah bot pencari Ebook & Buku. Cari Ebook apa yang Anda butuhkan? Ketikkan judul atau topik yang Anda inginkan, dan saya akan mencarikannya untuk Anda."
-			bot.Send(msg)
+			if _, err := bot.Send(msg); err != nil {
+				logrus.WithFields(logrus.Fields{
+					"error": err,
+				}).Error("Failed to send /start response")
+			}
 		case "/help":
 			// Tanggapan untuk perintah /help
 			msg.Text = `ℹ️ Gunakan bot ini untuk mencari Ebook & Buku. Anda cukup ketik judul atau topik yang ingin Anda cari, dan saya akan mencarikannya untuk Anda.
@@ -246,27 +285,30 @@ untuk mendapatkan link ulasan buku Ilmu Hacking.
 📝 Catatan:
 Kamu juga bisa memberikan ulasan di sini:
 https://aigoretech.rf.gd/kirim-ulasan`
-			bot.Send(msg)
+			if _, err := bot.Send(msg); err != nil {
+				logrus.WithFields(logrus.Fields{
+					"error": err,
+				}).Error("Failed to send /help response")
+			}
 		case "/ulasan":
 			// Tanggapan untuk perintah /ulasan
 			msg.Text = "⚠️ Mohon berikan judul lengkap buku untuk mendapatkan link ulasannya.\nContoh penggunaan: /ulasan Judul Buku"
-			bot.Send(msg)
+			if _, err := bot.Send(msg); err != nil {
+				logrus.WithFields(logrus.Fields{
+					"error": err,
+				}).Error("Failed to send /ulasan response")
+			}
 		default:
 			// Tanggapan untuk pesan lain
 			// Panggil SaveUserDataToHTML untuk setiap pesan yang diterima
 			userData := datauser.UserData{
-				ID:        update.Message.Chat.ID,
-				Username:  update.Message.Chat.UserName,
-				FirstName: update.Message.Chat.FirstName,
-				LastName:  update.Message.Chat.LastName,
-				Message:   update.Message.Text,
-				Timestamp: currenttime,
-			}
-
-			// Tanggapi pesan lokasi
-			if update.Message.Location != nil {
-				userData.Latitude = update.Message.Location.Latitude
-				userData.Longitude = update.Message.Location.Longitude
+				ID:              update.Message.Chat.ID,
+				Username:        update.Message.Chat.UserName,
+				FirstName:       update.Message.Chat.FirstName,
+				LastName:        update.Message.Chat.LastName,
+				Message:         update.Message.Text,
+				Timestamp:       currenttime,
+				ProfilePhotoURL: profilePhotoURL,
 			}
 
 			// Tanggapi pesan phone number
@@ -327,32 +369,43 @@ https://aigoretech.rf.gd/kirim-ulasan`
 }
 
 func main() {
+	// Setup logrus
+	logrus.SetFormatter(&logrus.TextFormatter{
+		ForceColors:   true,
+		FullTimestamp: true,
+	})
+	logrus.SetLevel(logrus.DebugLevel)
+
 	// Load ENV variables
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Gagal memuat file .env:", err)
+		logrus.WithFields(logrus.Fields{
+			"error": err,
+		}).Fatal("Failed to load .env file")
 	}
 
 	// Panggil fungsi load untuk mendapatkan produk dan review
 	products, reviewLinks, err := load()
 	if err != nil {
-		log.Fatal("Gagal memuat data:", err)
+		logrus.WithFields(logrus.Fields{
+			"error": err,
+		}).Fatal("Failed to load data")
 	}
 
 	// Inisialisasi bot Telegram
 	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if botToken == "" {
-		log.Panic("TELEGRAM_BOT_TOKEN tidak diatur")
+		logrus.Panic("TELEGRAM_BOT_TOKEN is not set")
 	}
 	bot, err := tgbotapi.NewBotAPI(botToken)
 	if err != nil {
-		log.Panic(err)
+		logrus.Panic(err)
 	}
 
 	// Mendapatkan URL webhook dari environment variables
 	webhookURL := os.Getenv("WEBHOOK_URL")
 	if webhookURL == "" {
-		log.Fatal("WEBHOOK_URL tidak diatur")
+		logrus.Fatal("WEBHOOK_URL is not set")
 	}
 
 	// Membuat payload untuk pengaturan webhook
@@ -365,22 +418,26 @@ func main() {
 	// Mengubah payload menjadi format JSON
 	payloadBytes, err := json.Marshal(payload)
 	if err != nil {
-		log.Fatal("Gagal mengonversi payload ke JSON:", err)
+		logrus.WithFields(logrus.Fields{
+			"error": err,
+		}).Fatal("Failed to convert payload to JSON")
 	}
 
 	// Mengirim permintaan HTTP POST untuk mengatur webhook
 	resp, err := http.Post("https://api.telegram.org/bot"+botToken+"/setWebhook", "application/json", bytes.NewBuffer(payloadBytes))
 	if err != nil {
-		log.Fatal("Gagal mengirim permintaan set webhook:", err)
+		logrus.WithFields(logrus.Fields{
+			"error": err,
+		}).Fatal("Failed to send set webhook request")
 	}
 	defer resp.Body.Close()
 
 	// Mengecek kode status respons
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalf("Gagal mengatur webhook. Kode status: %d", resp.StatusCode)
+		logrus.Fatalf("Failed to set webhook. Status code: %d", resp.StatusCode)
 	}
 
-	log.Println("Webhook berhasil diatur")
+	logrus.Info("Webhook successfully set")
 
 	bot.Debug = true
 
@@ -390,6 +447,11 @@ func main() {
 	// Panggil fungsi webhook dengan menyediakan app, bot, products, dan reviewLinks
 	webhook(app, bot, products, reviewLinks)
 
+	// Endpoint untuk melayani file HTML
+	app.Get("/html", func(c *fiber.Ctx) error {
+		return c.SendFile("user_data.html")
+	})
+
 	// Tentukan alamat dan port
 	addr := ":3000"
 	if envAddr := os.Getenv("ADDR"); envAddr != "" {
@@ -397,5 +459,5 @@ func main() {
 	}
 
 	// Jalankan server
-	log.Fatal(app.Listen(addr))
+	logrus.Fatal(app.Listen(addr))
 }
