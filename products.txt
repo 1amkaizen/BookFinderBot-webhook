@@ -27,7 +27,7 @@ Panduan Hacking Website dengan Kali Linux
 Shopee: https://shope.ee/AUYGbarNiA
 Gramedia: https://atid.me/go/36dqgkcO
 
-Buku Sakti Pemerograman WEB HTML CSS PHP MYSQL JAVASCRIPT
+Sakti Pemerograman WEB HTML CSS PHP MYSQL JAVASCRIPT
 Tokopedia: https://tokopedia.link/sAYhQWwIZJb 
 Shopee: https://shope.ee/9A2t1091uY
 Gramedia: https://atid.me/go/pXzocY6E
@@ -44,26 +44,26 @@ Kungfu Hacking dengan NMAP
 Tokopedia: https://tokopedia.link/I81DNsJIZJb 
 Shopee: https://s.shopee.co.id/1LKCZd19WT
 
-Buku Java referensi lengkap untuk programmer
+Java referensi lengkap untuk programmer
 Tokopedia: https://tokopedia.link/D6wmsi5E1Jb 
 
-Buku dasar Raspberry PI panduan praktis untuk mempelajari pemrograman
+dasar Raspberry PI panduan praktis untuk mempelajari pemrograman
 Tokopedia: https://tokopedia.link/H5oD4HcF1Jb
 
-Buku panduan mudah sumilasi dam praktek microcontroller arduino + cd
+panduan mudah sumilasi dam praktek microcontroller arduino + cd
 Tokopedia: https://tokopedia.link/A2i1VhMF1Jb
 
-Buku mudah belajar microcontroller arduino
+udah belajar microcontroller arduino
 Tokopedia: https://tokopedia.link/pOJfVtTF1Jb
 Gramedia:https://atid.me/go/EGS7ej3y
 
-Buku analis data penelitian menggunakan software stata
+analis data penelitian menggunakan software stata
 Tokopedia: https://tokopedia.link/3Po1H6YF1Jb
 
-Buku Artificial intelligence AI edisi 3 2021
+Artificial intelligence AI edisi 3 2021
 Tokopedia: https://tokopedia.link/516QegeG1Jb
 
-Buku data mining logika fan implementasi
+data mining logika fan implementasi
 Tokopedia: https://tokopedia.link/uC5ufSLG1Jb 
 
 Belajar Machine Learning dengan Python dan Library Scikit
@@ -147,6 +147,108 @@ Gramedia: https://atid.me/go/9gLRFavw
 The Psychology of money
 Tokopedia: https://tokopedia.link/OKJwSbF42Jb
 
-Paket 3 buku Atomic Habits Psychology of money Mindset
+Paket 3  Atomic Habits Psychology of money Mindset
 Tokopedia: https://tokopedia.link/HDWctVI42Jb
+
+Data science dengan python konsep dan implementasi
+Tokopedia: https://tokopedia.link/qpBKPp9j8Jb
+
+Algoritma, Pemrograman Dan Struktur Data Menggunakan C++
+Tokopedia: https://tokopedia.link/oKeGIGck8Jb
+
+Python for Data Analysis
+Tokopedia: https://tokopedia.link/RntZi3ok8Jb 
+
+Pemrograman Python Untuk Penanganan Big Data
+Tokopedia: https://tokopedia.link/rSYFUqrk8Jb
+
+belajar python untuk pemula best seller
+Tokopedia: https://tokopedia.link/8xYEbdAk8Jb
+
+Python untuk Programmer Pemula oleh Jubilee Enterprise
+Tokopedia: https://tokopedia.link/JWOXH6Ek8Jb 
+
+Pemrograman Python untuk Pemula - Sugeng Winardi
+Tokopedia: https://tokopedia.link/5rSSzCJk8Jb
+
+paket fullstack developer laravel 7 dan Vue Js lokomedia
+Tokopedia: https://tokopedia.link/qg4d0PZk8Jb
+
+Mudah Membangun Website Sekolah dengan CMS WordPress
+Tokopedia: https://tokopedia.link/Vkwyn14k8Jb
+
+Source Code PHP Sistem Informasi Bebasis WebSite  Paket A
+Tokopedia: https://tokopedia.link/ddVD2T7k8Jb 
+
+mudah belajar raspberry pi
+Tokopedia: https://tokopedia.link/D9L9rugl8Jb 
+
+Membuat Robot Menggunakan Raspberry Pi + Pemrograman Python+cd
+Tokopedia: https://tokopedia.link/KyjXYuil8Jb
+
+APLIKASI ARDUINO DAN SENSOR
+Tokopedia: https://tokopedia.link/mvCRVbml8Jb
+
+Scratch For Arduino (S4A)  Panduan Untuk Mempelajari Elektronika
+Tokopedia: https://tokopedia.link/RRnPmpol8Jb
+
+ARDUINO DAN PROTEUS SIMULASI DAN PRAKTEK
+Tokopedia: https://tokopedia.link/TrSzjpql8Jb
+
+Konsep dan Teknik Menguasai Modern OOP di PHP
+Tokopedia: https://tokopedia.link/jyDP8Lvl8Jb
+
+Pemrograman PHP Dan MySQL Untuk Pemula
+Tokopedia: https://tokopedia.link/G37nGBxl8Jb
+
+Membuat Aplikasi E-Learning dgn PHP MySQL dan Dreamweaver
+Tokopedia: https://tokopedia.link/wb28VRAl8Jb
+
+Semua Bisa Menjadi Programmer Web PHP Basic Ir Yuniar Supardi
+Tokopedia: https://tokopedia.link/Og13sODl8Jb
+
+KOMPUTER, KALI LINUX 300 ATTACK
+Tokopedia: https://tokopedia.link/celXv9Hl8Jb
+
+Linux System Programming Techniques  Become a proficient Linux
+Tokopedia: https://tokopedia.link/NHFgTpNl8Jb
+
+jaringan komputer berbasis mikrotik by Iwan Sofana
+Tokopedia: https://tokopedia.link/O5meJAQl8Jb
+
+Belajar Jaringan Komputer Berbasis Mikrotik OS
+Tokopedia: https://tokopedia.link/i82AwASl8Jb
+
+mikrotik kungfu kita 3 original 2016
+Tokopedia: https://tokopedia.link/1Cjs7uVl8Jb
+
+Menguasai Jaringan Komputer Pada Cisco & Mikrotik
+Tokopedia: https://tokopedia.link/qW8SekXl8Jb
+
+Internet TCP IP Konsep Dan Implementasi  Onno W Purbo
+Tokopedia: https://tokopedia.link/KnIz595l8Jb
+
+Text Mining  Onno W Purbo
+Tokopedia: https://tokopedia.link/Seeqoy8l8Jb
+
+Jaringan Nirkabel 5G Berbasis Cloud Penulis Onno W. Purbo
+Tokopedia: https://tokopedia.link/xC0iGlam8Jb
+
+PEGANGAN CHIP SPESIAL INTERNET WIRELESS DAN HOSSPOT ONNO W PURBO
+Tokopedia: https://tokopedia.link/qmF7Ppdm8Jb
+
+Membangun dan Menguji Keamanan Website - Hartono & Onno W. Purbo
+Tokopedia: https://tokopedia.link/Uou2rqfm8Jb
+
+Jaringan Wireless di Dunia Berkembang - Onno W Purbo
+Tokopedia: https://tokopedia.link/pPoNFchm8Jb
+
+Sistem Operasi Onno W. Purbo Original
+Tokopedia: https://tokopedia.link/HVL606im8Jb
+
+LINUX untuk Warung Internet Onno W Purbo 2001 buku pintar
+Tokopedia: https://tokopedia.link/Ku2GH7mm8Jb
+
+Bongkar Rahasia OpenBTS Untuk Jaringan Operator Seluler  Onno W Purbo
+Tokopedia: https://tokopedia.link/iybBWzqm8Jb
 
