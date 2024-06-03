@@ -27,7 +27,7 @@ Panduan Hacking Website dengan Kali Linux
 Shopee: https://shope.ee/AUYGbarNiA
 Gramedia: https://atid.me/go/36dqgkcO
 
-Buku Sakti Pemerograman WEB HTML,CSS,PHP,MYSQL,JAVASCRIPT
+Buku Sakti Pemerograman WEB HTML CSS PHP MYSQL JAVASCRIPT
 Tokopedia: https://tokopedia.link/sAYhQWwIZJb 
 Shopee: https://shope.ee/9A2t1091uY
 Gramedia: https://atid.me/go/pXzocY6E
@@ -81,7 +81,7 @@ Gramedia:https://atid.me/go/7aujJNAB
 Semua Bisa Menjadi Programmer JavaScript & Node.js
 Gramedia:https://atid.me/go/7jS6OtLH
 
-Dasar-Dasar Pemrograman Java Netbeans Data, UML, Dan Interface
+Dasar-Dasar Pemrograman Java Netbeans Data UML Dan Interface
 Gramedia: https://atid.me/go/YBZMGJld
 
 Logika Pemrograman Java (Update Version)
@@ -138,7 +138,7 @@ Gramedia: https://atid.me/go/kS4ynawI
 Membuat aplikasi IoT Internet Of Things
 Gramedia: https://atid.me/go/slHNp871
 
-Membuat Blog dengan 3 Platform Blogspot, Wordpress, dan Weebly
+Membuat Blog dengan 3 Platform Blogspot Wordpress dan Weebly
 Gramedia: https://atid.me/go/quq8P21l
 
 Membangun Website Bisnis Online dalam Sehari Kerja
@@ -147,6 +147,6 @@ Gramedia: https://atid.me/go/9gLRFavw
 The Psychology of money
 Tokopedia: https://tokopedia.link/OKJwSbF42Jb
 
-Paket 3 buku Atomic Habits,Psychology of money,Mindset
+Paket 3 buku Atomic Habits Psychology of money Mindset
 Tokopedia: https://tokopedia.link/HDWctVI42Jb
 
