@@ -8,15 +8,14 @@ import (
 
 // UserData represents data of a user
 type UserData struct {
-	ID          int64
-	Username    string
-	FirstName   string
-	LastName    string
-	PhoneNumber string
-	Message     string
-	Timestamp   time.Time
-	Latitude    float64
-	Longitude   float64
+	ID              int64
+	ProfilePhotoURL string
+	Username        string
+	FirstName       string
+	LastName        string
+	PhoneNumber     string
+	Message         string
+	Timestamp       time.Time
 	// Add other fields as needed
 }
 
@@ -43,16 +42,14 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
      <thead class="table-dark">
       <tr>
        <th scope="col">No</th>
+			 <th scope="col">Profile</th>
         <th scope="col">ID</th>
-        <th scope="col">Username</th>
-	<th scope="col">FirstName</th>
+       	<th scope="col">FirstName</th>
 	<th scope="col">LastName</th>
 	<th scope="col">PhoneNumber</th>
         <th scope="col">Message</th>
 	<th scope="col">Timestamp</th>
-	<th scope="col">Latitude</th>
-	<th scope="col">Longitude</th>
-
+	
 
       </tr>
         </thead>`)
@@ -63,11 +60,19 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 	// Write user data to HTML table rows
 	for i, user := range users {
 		timestamp := user.Timestamp.Format("2006-01-02 15:04:05")
-		_, err = file.WriteString("<tr><td>" + strconv.Itoa(i+1) + "</td><td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.Username + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + user.Message + "</td><td>" + timestamp + "</td> <td>" + strconv.FormatFloat(user.Latitude, 'f', -1, 64) + "</td><td>" + strconv.FormatFloat(user.Longitude, 'f', -1, 64) + "</td> </tr>")
+		// Tulis tag img ke file HTML
+		var profilePhotoHTML string
+		if user.ProfilePhotoURL != "" {
+			profilePhotoHTML = "<img src='" + user.ProfilePhotoURL + "' alt='Profile Photo' width='50' height='50' class='rounded-circle img-fluid'>  <span class='ps-2'>" + user.Username + "</span>"
+		} else {
+			profilePhotoHTML = "No photo"
+		}
+		_, err = file.WriteString("<tr> <td>" + strconv.Itoa(i+1) + "</td>  <td>" + profilePhotoHTML + "</td> <td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + user.Message + "</td><td>" + timestamp + "</td></tr>")
 		if err != nil {
 			return err
 		}
 	}
+
 	// Write HTML footer
 	_, err = file.WriteString(`    </table></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
