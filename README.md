@@ -98,6 +98,11 @@ Anda juga dapat memberikan ulasan langsung melalui [form ulasan kami](https://ai
 
 Untuk dokumentasi lebih lanjut tentang penggunaan dan cara deploy BookFinderBot, silakan lihat [dokumentasi lengkap](https://github.com/1amkaizen/BookFinderBot-webhook/wiki).
 
+## Demo
+
+<a href="https://t.me/bookgobot"><img src="https://img.shields.io/badge/BookFinderBot-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" />
+
 ## Lisensi
 
-[MIT](LICENSE)
+<p align="center"><a href="https://github.com/1amkaizen/BookFinderBot-webhook/blob/main/LICENSE"><img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&logoColor=d9e0ee&colorA=363a4f&colorB=b7bdf8"/></a></p>
+
