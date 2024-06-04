@@ -92,15 +92,13 @@ Anda dapat berkontribusi pada pengembangan BookFinderBot dengan melakukan pull r
 
 ## Mengirim Ulasan
 
-Anda juga dapat memberikan ulasan langsung melalui [form ulasan kami](https://aigoretech.rf.gd/kirim-ulasan).
+Anda juga dapat memberikan ulasan langsung melalui [form ulasan kami](http://aigoretech.rf.gd/kirim-ulasan).
 
-## Dokumentasi Tambahan
+## Dokumentasi & Demo
 
-Untuk dokumentasi lebih lanjut tentang penggunaan dan cara deploy BookFinderBot, silakan lihat [dokumentasi lengkap](https://github.com/1amkaizen/BookFinderBot-webhook/wiki).
+Untuk dokumentasi lebih lanjut tentang penggunaan dan cara deploy BookFinderBot,dan untuk lihat Demo, silakan lihat:
 
-## Demo
-
-<a href="https://t.me/bookgobot"><img src="https://img.shields.io/badge/BookFinderBot-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" />
+ <a href="https://t.me/bookgobot"><img src="https://img.shields.io/badge/BookFinderBot-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" />  <a href="https://github.com/1amkaizen/BookFinderBot-webhook/wiki"><img src="https://img.shields.io/badge/Wiki%20BookFinderBot-ffffff?style=for-the-badge&logo=wikipedia&logoColor=black"/></a>
 
 ## Lisensi
 
