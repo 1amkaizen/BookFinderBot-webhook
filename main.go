@@ -284,7 +284,7 @@ Ketikkan "Hacking" untuk mencari Ebook atau Buku tentang hacking.
 untuk mendapatkan link ulasan buku Ilmu Hacking.
 📝 Catatan:
 Kamu juga bisa memberikan ulasan di sini:
-https://aigoretech.rf.gd/kirim-ulasan`
+http://aigoretech.rf.gd/kirim-ulasan`
 			if _, err := bot.Send(msg); err != nil {
 				logrus.WithFields(logrus.Fields{
 					"error": err,
@@ -326,7 +326,7 @@ https://aigoretech.rf.gd/kirim-ulasan`
 				if link, found := findReviewLinkByName(reviewLinks, productName); found {
 					msg.Text = "📘 Link ulasan untuk " + productName + ":\n" + link
 				} else {
-					msg.Text = "⚠️ Link ulasan untuk " + productName + " tidak ditemukan.\nKamu bisa memberikan ulasan di sini: https://aigoretech.rf.gd/kirim-ulasan"
+					msg.Text = "⚠️ Link ulasan untuk " + productName + " tidak ditemukan.\nKamu bisa memberikan ulasan di sini: http://aigoretech.rf.gd/kirim-ulasan"
 				}
 				bot.Send(msg)
 			} else {
