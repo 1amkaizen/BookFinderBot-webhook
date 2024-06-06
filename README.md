@@ -67,7 +67,7 @@ Berikut langkah-langkahnya:
 
 Berikut adalah contoh penggunaan bot di Telegram:
 
-1. `/start` - Memulai bot dan menampilkan pesan selamat datang.
+1. `/start` - Memulai percakapan dengan bot dan menampilkan pesan selamat datang.
 2. `/help` - Menampilkan panduan penggunaan bot.
 3. `/ulasan [judul lengkap produk]` - Mendapatkan link ulasan untuk produk yang diminta.
 
@@ -80,11 +80,6 @@ Contoh: `/ulasan Belajar Golang`
 3. Pastikan nama produk di `link_reviews.txt` cocok dengan nama produk di `products.txt`.
 
 
-## Perintah yang Tersedia
-
-- `/start`: Memulai percakapan dengan bot dan menampilkan pesan selamat datang.
-- `/help`: Menampilkan daftar perintah yang tersedia beserta contoh penggunaannya.
-- `/ulasan [nama lengkap produk]`: Mendapatkan link ulasan produk yang diinginkan.
 
 ## Mengkontribusi
 
