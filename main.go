@@ -9,7 +9,6 @@ import (
 	"github.com/1amkaizen/BookFinderBot/handler"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
 
@@ -21,12 +20,16 @@ func main() {
 	})
 	logrus.SetLevel(logrus.DebugLevel)
 
-	// Load ENV variables
-	err := godotenv.Load()
+	// Mendapatkan token bot dari secrets atau variabel lingkungan di Koyeb
+	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
+	if botToken == "" {
+		logrus.Panic("TELEGRAM_BOT_TOKEN is not set")
+	}
+
+	// Inisialisasi bot Telegram
+	bot, err := tgbotapi.NewBotAPI(botToken)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{
-			"error": err,
-		}).Fatal("Failed to load .env file")
+		logrus.Panic(err)
 	}
 
 	// Panggil fungsi load untuk mendapatkan produk dan review
@@ -37,17 +40,7 @@ func main() {
 		}).Fatal("Failed to load data")
 	}
 
-	// Inisialisasi bot Telegram
-	botToken := os.Getenv("TELEGRAM_BOT_TOKEN")
-	if botToken == "" {
-		logrus.Panic("TELEGRAM_BOT_TOKEN is not set")
-	}
-	bot, err := tgbotapi.NewBotAPI(botToken)
-	if err != nil {
-		logrus.Panic(err)
-	}
-
-	// Mendapatkan URL webhook dari environment variables
+	// Mendapatkan URL webhook dari secrets atau variabel lingkungan di Koyeb
 	webhookURL := os.Getenv("WEBHOOK_URL")
 	if webhookURL == "" {
 		logrus.Fatal("WEBHOOK_URL is not set")
