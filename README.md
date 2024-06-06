@@ -25,6 +25,24 @@ Sebelum menjalankan bot, pastikan Anda telah memenuhi persyaratan berikut:
 
 ## Cara Mengatur Variabel Lingkungan
 
+import modul
+```go
+import (
+"github.com/joho/godotenv"
+)
+```
+Tambahkan kode berikut di `func main` :
+
+```bash
+// Load ENV variables
+	err := godotenv.Load()
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"error": err,
+		}).Fatal("Failed to load .env file")
+	}
+```
+
 Untuk mengatur variabel lingkungan yang diperlukan, buatlah file bernama `.env` di direktori proyek Anda dan isi dengan informasi berikut:
 
 ```
