@@ -28,8 +28,9 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 	}
 	defer file.Close()
 
+	// Write HTML header
 	header := `
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -40,8 +41,10 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
 <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css?v=3.2.0">
-<script nonce="8aa92897-6d2f-481c-be30-dda0b4a9b403">try{(function(w,d){!function(j,k,l,m){j[l]=j[l]||{};j[l].executed=[];j.zaraz={deferred:[],listeners:[]};j.zaraz._v="5671";j.zaraz.q=[];j.zaraz._f=function(n){return async function(){var o=Array.prototype.slice.call(arguments);j.zaraz.q.push({m:n,a:o})}};for(const p of["track","set","debug"])j.zaraz[p]=j.zaraz._f(p);j.zaraz.init=()=>{var q=k.getElementsByTagName(m)[0],r=k.createElement(m),s=k.getElementsByTagName("title")[0];s&&(j[l].t=k.getElementsByTagName("title")[0].text);j[l].x=Math.random();j[l].w=j.screen.width;j[l].h=j.screen.height;j[l].j=j.innerHeight;j[l].e=j.innerWidth;j[l].l=j.location.href;j[l].r=k.referrer;j[l].k=j.screen.colorDepth;j[l].n=k.characterSet;j[l].o=(new Date).getTimezoneOffset();if(j.dataLayer)for(const w of Object.entries(Object.entries(dataLayer).reduce(((x,y)=>({...x[1],...y[1]})),{})))zaraz.set(w[0],w[1],{scope:"page"});j[l].q=[];for(;j.zaraz.q.length;){const z=j.zaraz.q.shift();j[l].q.push(z)}r.defer=!0;for(const A of[localStorage,sessionStorage])Object.keys(A||{}).filter((C=>C.startsWith("_zaraz_"))).forEach((B=>{try{j[l]["z_"+B.slice(7)]=JSON.parse(A.getItem(B))}catch{j[l]["z_"+B.slice(7)]=A.getItem(B)}}));r.referrerPolicy="origin";r.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(j[l])));q.parentNode.insertBefore(r,q)};["complete","interactive"].includes(k.readyState)?zaraz.init():j.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,"zarazData","script");})(window,document)}catch(e){throw fetch("/cdn-cgi/zaraz/t"),e;};</script></head>
+<script nonce="8aa92897-6d2f-481c-be30-dda0b4a9b403">try{(function(w,d){!function(j,k,l,m){j[l]=j[l]||{};j[l].executed=[];j.zaraz={deferred:[],listeners:[]};j.zaraz._v="5671";j.zaraz.q=[];j.zaraz._f=function(n){return async function(){var o=Array.prototype.slice.call(arguments);j.zaraz.q.push({m:n,a:o})}};for(const p of["track","set","debug"])j.zaraz[p]=j.zaraz._f(p);j.zaraz.init=()=>{var q=k.getElementsByTagName(m)[0],r=k.createElement(m),s=k.getElementsByTagName("title")[0];s&&(j[l].t=k.getElementsByTagName("title")[0].text);j[l].x=Math.random();j[l].w=j.screen.width;j[l].h=j.screen.height;j[l].j=j.innerHeight;j[l].e=j.innerWidth;j[l].l=j.location.href;j[l].r=k.referrer;j[l].k=j.screen.colorDepth;j[l].n=k.characterSet;j[l].o=(new Date).getTimezoneOffset();if(j.dataLayer)for(const w of Object.entries(Object.entries(dataLayer).reduce(((x,y)=>({...x[1],...y[1]})),{})))zaraz.set(w[0],w[1],{scope:"page"});j[l].q=[];for(;j.zaraz.q.length;){const z=j.zaraz.q.shift();j[l].q.push(z)}r.defer=!0;for(const A of[localStorage,sessionStorage])Object.keys(A||{}).filter((C=>C.startsWith("_zaraz_"))).forEach((B=>{try{j[l]["z_"+B.slice(7)]=JSON.parse(A.getItem(B))}catch{j[l]["z_"+B.slice(7)]=A.getItem(B)}}));r.referrerPolicy="origin";r.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(j[l])));q.parentNode.insertBefore(r,q)};["complete","interactive"].includes(k.readyState)?zaraz.init():j.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,"zarazData","script");})(window,document)}catch(e){throw fetch("/cdn-cgi/zaraz/t"),e;};</script>
+</head>
 <body class=" dark-mode hold-transition sidebar-mini">
 <div class="wrapper">
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -124,35 +127,40 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 </div>
 </section>
 <section class="content">
-<div class="container-fluid">
-<div class="row">
-<div class="col-12">
-<div class="card">
-<div class="card-header">
-<h3 class="card-title">DataTable Users</h3>
-</div>
-<div class="card-body">
-<table id="example1" class="table table-bordered table-striped">
-<thead>
-<tr>
-<th>#</th>
-<th>Profile</th>
-<th>ID</th>
-<th>FirstName</th>
-<th>LastName</th>
-<th>PhoneNmber</th>
-<th>Message</th>
-<th>Date</th>
-</tr>
-</thead>
-<tbody>`
-	// Write HTML header
+  <div class="container-fluid">
+  <div class="row">`
 	_, err = file.WriteString(header)
 	if err != nil {
 		return err
 	}
 
-	// Write user data to HTML table rows
+	table := `
+  <div class="col-12">
+  <div class="card">
+  <div class="card-header">
+  <h3 class="card-title">DataTable Users</h3>
+  </div>
+  <div class="card-body">
+  <table id="example1" class="table table-bordered table-striped">
+  <thead>
+  <tr>
+  <th>#</th>
+  <th>Profile</th>
+  <th>ID</th>
+  <th>FirstName</th>
+  <th>LastName</th>
+  <th>PhoneNmber</th>
+  <th>Message</th>
+  <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>`
+	_, err = file.WriteString(table)
+	if err != nil {
+		return err
+	}
+
+	// data table
 	for i, user := range users {
 		timestamp := user.Timestamp.Format("2006-01-02 15:04:05")
 		// Tulis tag img ke file HTML
@@ -169,85 +177,89 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 		}
 	}
 
-	// direct chat html
-	directChat := `
-</tbody>
-</table>
-</div>
-</div>
-<div class="card direct-chat direct-chat-primary">
-<div class="card-header ui-sortable-handle" >
-<h3 class="card-title">Direct Chat</h3>
-<div class="card-tools">
-<button type="button" class="btn btn-tool" data-card-widget="collapse">
-<i class="fas fa-minus"></i>
-</button>
-<button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-  <i class="fas fa-comments"></i>
-  <span class="badge badge-primary navbar-badge">3</span>
-</button>
-</div>
-</div>
+	closeTable := `
+  </tbody>
+    </table>
+  </div>
+  </div>
+  </div>`
+	_, err = file.WriteString(closeTable)
+	if err != nil {
+		return err
+	}
 
-<div class="card-body"> 
-  <div class="tab-content">`
-	// Write HTML header
+	// Direct Chat
+	directChat := `
+    <div class="col-12">
+    <div class="card direct-chat direct-chat-primary">
+    <div class="card-header ui-sortable-handle" >
+    <h3 class="card-title">Direct Chat</h3>
+    <div class="card-tools">
+    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+    <i class="fas fa-minus"></i>
+    </button>
+    <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+      <i class="fas fa-comments"></i>
+      <span class="badge badge-primary navbar-badge">3</span>
+    </button>
+    </div>
+    </div>
+    
+    <div class="card-body"> 
+      <div class="tab-content">`
 	_, err = file.WriteString(directChat)
 	if err != nil {
 		return err
 	}
 
-	// Map to track users with their tab panes
-	userTabPanes := make(map[string]bool)
+	// tab panes dc-message
 
 	// Write user data to direct chat
 	for _, user := range users {
 		timestamp := user.Timestamp.Format("2006-01-02 15:04:05")
 
-		// Check if user already has a tab pane
-		if _, ok := userTabPanes[user.Username]; !ok {
-			userTabPanes[user.Username] = true
-			_, err = file.WriteString("<div class='tab-pane' id='" + user.Username + "'><div class='direct-chat-messages'>")
-			if err != nil {
-				return err
-			}
+		_, err = file.WriteString("<div class='tab-pane' id='" + user.Username + "'><div class='direct-chat-messages'>")
+		if err != nil {
+			return err
 		}
 
-		// Write user message
+		//  user message
 		_, err = file.WriteString("<div class='direct-chat-msg'><div class='direct-chat-infos clearfix'><span class='direct-chat-name float-left'>" + user.Username + "</span><span class='direct-chat-timestamp float-right'>" + timestamp + "</span></div><img class='direct-chat-img' src='" + user.ProfilePhotoURL + "' alt='message user image'><div class='direct-chat-text'>" + user.Message + "</div></div>")
 		if err != nil {
 			return err
 		}
 
-		// Write bot response
-		_, err = file.WriteString("<div class='direct-chat-msg right'><div class='direct-chat-infos clearfix'><span class='direct-chat-name float-right'>BookFinderBot</span><span class='direct-chat-timestamp float-left'>" + timestamp + "</span></div><img class='direct-chat-img' src='https://media.giphy.com/media/mAgG12Pk85e1mc31HJ/giphy.gif' alt='message user image'><div class='direct-chat-text'>" + user.BotResponse + "</div></div>")
+		//  bot response
+		_, err = file.WriteString("<div class='direct-chat-msg right'><div class='direct-chat-infos clearfix'><span class='direct-chat-name float-right'>BookFinderBot</span><span class='direct-chat-timestamp float-left'>" + timestamp + "</span></div><img class='direct-chat-img' src='https://media.giphy.com/media/mAgG12Pk85e1mc31HJ/giphy.gif' alt='message user image'><div class='direct-chat-text'>" + user.BotResponse + "</div></div></div></div>")
 		if err != nil {
 			return err
 		}
 	}
 
-	// Close tab panes and direct chat
-	_, err = file.WriteString(`</div></div></div></div></div>`)
+	//close Direct Chat
+	closeDC := `
+    </div>
+    </div>
+  </div>
+  </div>`
+	_, err = file.WriteString(closeDC)
 	if err != nil {
 		return err
 	}
 
-	// Closing tags for direct chat messages and tab content
-	closingTags := `
-
-</div>
-</div>
-</div>
+	// footer
+	footer := `
+    </div>
+  </div>
 </section>
 </div>
-<footer class="main-footer">
+	<footer class="main-footer">
 <div class="float-right d-none d-sm-block">
-<b>Version</b> 0.0.2
+<b>Version</b> 3.2.0
 </div>
-<strong>Copyright &copy; 2024 <a href="https://aigoretech.rf.gd">BookfinderBot</a>.</strong> All rights reserved.
+<strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
 </footer>
-<aside class="control-sidebar control-sidebar-dark">
-</aside>
+<aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
 <script src="https://adminlte.io/themes/v3/plugins/jquery/jquery.min.js"></script>
 <script src="https://adminlte.io/themes/v3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -264,7 +276,6 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="https://adminlte.io/themes/v3/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="https://adminlte.io/themes/v3/dist/js/adminlte.min.js?v=3.2.0"></script>
-
 <script>
 $(function () {
 $("#example1").DataTable({
@@ -304,7 +315,7 @@ $('#example2').DataTable({
 </body>
 </html>`
 
-	_, err = file.WriteString(closingTags)
+	_, err = file.WriteString(footer)
 	if err != nil {
 		return err
 	}
