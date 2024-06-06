@@ -143,23 +143,51 @@ func getProfilePhotoURL(bot *tgbotapi.BotAPI, userID int64) string {
 }
 
 func saveUserData(update *tgbotapi.Update, botResponse string, currenttime time.Time, profilePhotoURL string) {
-	userData := datauser.UserData{
-		ID:              update.Message.Chat.ID,
-		Username:        update.Message.From.UserName,
-		FirstName:       update.Message.From.FirstName,
-		LastName:        update.Message.From.LastName,
-		Message:         update.Message.Text,
-		BotResponse:     botResponse,
-		Timestamp:       currenttime,
-		ProfilePhotoURL: profilePhotoURL,
+	filename := "user_data.json"
+
+	users, err := datauser.LoadUserData(filename)
+	if err != nil {
+		log.Println("Gagal memuat data pengguna:", err)
 	}
 
-	if update.Message.Contact != nil {
-		userData.PhoneNumber = update.Message.Contact.PhoneNumber
+	message := datauser.Message{
+		Content:   update.Message.Text,
+		Sender:    "user",
+		Timestamp: currenttime,
 	}
 
-	err := datauser.SaveUserDataToHTML([]datauser.UserData{userData}, "user_data.html")
+	updatedUsers, err := datauser.AddUserMessage(users, update.Message.Chat.ID, message)
+	if err != nil {
+		// Jika pengguna baru, tambahkan data pengguna baru
+		newUser := datauser.UserData{
+			ID:              update.Message.Chat.ID,
+			Username:        update.Message.From.UserName,
+			FirstName:       update.Message.From.FirstName,
+			LastName:        update.Message.From.LastName,
+			ProfilePhotoURL: profilePhotoURL,
+			Messages:        []datauser.Message{message},
+		}
+		updatedUsers = append(users, newUser)
+	}
+
+	botMessage := datauser.Message{
+		Content:   botResponse,
+		Sender:    "bot",
+		Timestamp: currenttime,
+	}
+
+	updatedUsers, err = datauser.AddUserMessage(updatedUsers, update.Message.Chat.ID, botMessage)
+	if err != nil {
+		log.Println("Gagal menambahkan pesan bot ke data pengguna:", err)
+	}
+
+	err = datauser.SaveUserData(filename, updatedUsers)
 	if err != nil {
 		log.Println("Gagal menyimpan data pengguna:", err)
+	}
+
+	err = datauser.SaveUserDataToHTML(updatedUsers, "user_data.html")
+	if err != nil {
+		log.Println("Gagal menyimpan data pengguna ke HTML:", err)
 	}
 }
