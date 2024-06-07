@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"unicode"
 )
 
 // ANSI escape codes for coloring
@@ -78,18 +79,56 @@ func extractKeywords(name string) []string {
 	return keywords
 }
 
-// findProducts searches for products based on keywords
 func findProducts(products []Product, message string) []*Product {
 	message = strings.ToLower(message)
 	var matchingProducts []*Product
+
+	// Split pesan pengguna menjadi kata-kata individual
+	keywords := tokenize(message)
+
+	// Membuat map untuk menyimpan produk yang sudah ditemukan
+	foundProducts := make(map[string]bool)
+
 	for i := range products {
-		keywords := extractKeywords(products[i].Nama)
-		for _, keyword := range keywords {
-			if strings.Contains(message, keyword) {
-				matchingProducts = append(matchingProducts, &products[i])
-				break // Break the inner loop once a match is found
+		productName := strings.ToLower(products[i].Nama)
+		if matchKeywords(productName, keywords) && !foundProducts[productName] {
+			matchingProducts = append(matchingProducts, &products[i])
+			foundProducts[productName] = true // Tandai produk sebagai sudah ditemukan
+		}
+	}
+
+	return matchingProducts
+}
+
+// tokenize membagi pesan menjadi kata-kata individual dengan mengambil tanda baca ke dalam pertimbangan
+func tokenize(message string) []string {
+	var tokens []string
+	builder := strings.Builder{}
+
+	for _, char := range message {
+		if unicode.IsLetter(char) {
+			builder.WriteRune(char)
+		} else {
+			if builder.Len() > 0 {
+				tokens = append(tokens, builder.String())
+				builder.Reset()
 			}
 		}
 	}
-	return matchingProducts
+
+	if builder.Len() > 0 {
+		tokens = append(tokens, builder.String())
+	}
+
+	return tokens
+}
+
+// matchKeywords memeriksa apakah nama produk cocok dengan setidaknya satu kata kunci
+func matchKeywords(productName string, keywords []string) bool {
+	for _, keyword := range keywords {
+		if !strings.Contains(productName, keyword) {
+			return false
+		}
+	}
+	return true
 }

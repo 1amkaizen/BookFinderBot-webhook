@@ -231,7 +231,7 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 		if user.ProfilePhotoURL != "" {
 			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'><img src='" + user.ProfilePhotoURL + "' alt='Profile Photo' width='50px' class='rounded-circle img-fluid'>" + user.Username + "</a>"
 		} else {
-			profilePhotoHTML = "No photo"
+			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'>" + user.Username + "</a>"
 		}
 		_, err = file.WriteString("<tr><td>" + strconv.Itoa(i+1) + "</td><td>" + profilePhotoHTML + "</td><td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + lastMessage + "</td><td>" + timestamp + "</td></tr>")
 		if err != nil {
@@ -285,23 +285,21 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 			var senderName string
 			var floatClass string
 			var senderProfilePhotoURL string
+			var msgClass string
+
 			if message.Sender == "user" {
 				senderName = user.Username
 				floatClass = "float-left"
 				senderProfilePhotoURL = user.ProfilePhotoURL
+				msgClass = "direct-chat-msg"
 			} else if message.Sender == "bot" {
 				senderName = "BookFinderBot"
 				floatClass = "float-right"
-				// Ganti URL gambar default dengan URL gambar bot yang Anda berikan
 				senderProfilePhotoURL = "https://media.giphy.com/media/mAgG12Pk85e1mc31HJ/giphy.gif"
-
+				msgClass = "direct-chat-msg right"
 			}
 
-			if message.Sender == "bot" {
-				floatClass = "float-right"
-			}
-
-			_, err = file.WriteString("<div class='direct-chat-msg'><div class='direct-chat-infos clearfix'><span class='direct-chat-name " + floatClass + "'>" + senderName + "</span><span class='direct-chat-timestamp " + floatClass + "'>" + message.Timestamp.Format("2006-01-02 15:04:05") + "</span></div><img class='direct-chat-img' src='" + senderProfilePhotoURL + "' alt='message " + message.Sender + " image'><div class='direct-chat-text'>" + message.Content + "</div></div>")
+			_, err = file.WriteString("<div class='" + msgClass + "'><div class='direct-chat-infos clearfix'><span class='direct-chat-name " + floatClass + "'>" + senderName + "</span><span class='direct-chat-timestamp " + floatClass + "'>" + message.Timestamp.Format("2006-01-02 15:04:05") + "</span></div><img class='direct-chat-img' src='" + senderProfilePhotoURL + "' alt='message " + message.Sender + " image'><div class='direct-chat-text'>" + message.Content + "</div></div>")
 			if err != nil {
 				return err
 			}
