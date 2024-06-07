@@ -66,6 +66,7 @@ Ketikkan "Hacking" untuk mencari Ebook atau Buku tentang hacking.
 📘 Contoh penggunaan:
 /ulasan Ilmu Hacking 
 untuk mendapatkan link ulasan buku Ilmu Hacking.
+
 📝 Catatan:
 Kamu juga bisa memberikan ulasan di sini:
 http://aigoretech.rf.gd/kirim-ulasan`
