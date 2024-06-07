@@ -219,21 +219,32 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 
 	// Write user data to table
 	for i, user := range users {
-		var lastMessage string
-		if len(user.Messages) > 0 {
-			lastMessage = user.Messages[len(user.Messages)-1].Content
-		} else {
-			lastMessage = "No messages"
+		var lastUserMessage string
+		var lastUserMessageTime time.Time
+
+		// Find the last message sent by the user
+		for _, message := range user.Messages {
+			if message.Sender == "user" {
+				lastUserMessage = message.Content
+				lastUserMessageTime = message.Timestamp
+			}
 		}
 
-		timestamp := user.Messages[len(user.Messages)-1].Timestamp.Format("2006-01-02 15:04:05")
+		var lastMessageTimeFormatted string
+		if !lastUserMessageTime.IsZero() {
+			lastMessageTimeFormatted = lastUserMessageTime.Format("2006-01-02 15:04:05")
+		} else {
+			lastMessageTimeFormatted = "No messages"
+		}
+
 		var profilePhotoHTML string
 		if user.ProfilePhotoURL != "" {
 			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'><img src='" + user.ProfilePhotoURL + "' alt='Profile Photo' width='50px' class='rounded-circle img-fluid'>" + user.Username + "</a>"
 		} else {
 			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'>" + user.Username + "</a>"
 		}
-		_, err = file.WriteString("<tr><td>" + strconv.Itoa(i+1) + "</td><td>" + profilePhotoHTML + "</td><td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + lastMessage + "</td><td>" + timestamp + "</td></tr>")
+
+		_, err = file.WriteString("<tr><td>" + strconv.Itoa(i+1) + "</td><td>" + profilePhotoHTML + "</td><td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + lastUserMessage + "</td><td>" + lastMessageTimeFormatted + "</td></tr>")
 		if err != nil {
 			return err
 		}
