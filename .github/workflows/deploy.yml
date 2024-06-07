@@ -18,7 +18,7 @@ jobs:
         with:
           api_token: ${{ secrets.KOYEB_API_KEY }}
 
-      - name: Deploy to Koyeb
+      - name: Redeploy to Koyeb
         run: |
           koyeb login --api-key ${{ secrets.KOYEB_API_KEY }}
           koyeb service redeploy ame/bookfinderbot-webhook
