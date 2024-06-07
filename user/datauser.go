@@ -310,6 +310,7 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 			return err
 		}
 	}
+
 	// Close Direct Chat
 	closeDC := `
 </div>
