@@ -1,4 +1,4 @@
-name: Auto Redeploy
+name: Deploy to Koyeb
 
 on:
   push:
@@ -13,16 +13,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Go
-        uses: actions/setup-go@v2
+      - name: Install and configure the Koyeb CLI
+        uses: koyeb-community/install-koyeb-cli@v2
         with:
-          go-version: '1.16'
+          api_token: ${{ secrets.KOYEB_API_KEY }}
 
-      - name: Install Koyeb CLI
-        run: curl https://cli.koyeb.com/install | sh
-
-      - name: Build and deploy the application
+      - name: Deploy to Koyeb
         run: |
-          go build -o myapp main.go
           koyeb login --api-key ${{ secrets.KOYEB_API_KEY }}
-          koyeb deploy --app myapp --buildpack golang --path . --version latest
+          koyeb deploy --app myapp --source . --buildpacks go
+
