@@ -241,13 +241,14 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 		if user.ProfilePhotoURL != "" {
 			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'><img src='" + user.ProfilePhotoURL + "' alt='Profile Photo' width='50px' class='rounded-circle img-fluid'>" + user.Username + "</a>"
 		} else {
-			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'>" + user.Username + "</a>"
+			profilePhotoHTML = "No photo"
 		}
 
-		_, err = file.WriteString("<tr><td>" + strconv.Itoa(i+1) + "</td><td>" + profilePhotoHTML + "</td><td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + lastUserMessage + "</td><td>" + lastMessageTimeFormatted + "</td></tr>")
+		_, err = file.WriteString("<tr> <td>" + strconv.Itoa(i+1) + "</td>  <td>" + profilePhotoHTML + "</td> <td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + lastUserMessage + "</td><td>" + lastMessageTimeFormatted + "</td></tr>")
 		if err != nil {
 			return err
 		}
+
 	}
 
 	closeTable := `
