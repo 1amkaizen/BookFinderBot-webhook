@@ -93,19 +93,16 @@ func tokenize(message string) []string {
 	return words
 }
 
-// extractKeywords menggunakan Prose untuk mengekstrak kata-kata dari nama produk
 func extractKeywords(name string) []string {
+	// Use jdokato/prose/v2 for tokenization
 	doc, _ := prose.NewDocument(name)
 	var keywords []string
 	for _, tok := range doc.Tokens() {
-		if tok.Tag == "Noun" { // hanya mengambil kata benda
-			keywords = append(keywords, tok.Text)
-		}
+		keywords = append(keywords, tok.Text)
 	}
 	return keywords
 }
 
-// findProducts menggunakan Prose untuk memperkaya pencarian produk
 func findProducts(products []Product, message string) []*Product {
 	message = strings.ToLower(message)
 	var matchingProducts []*Product
@@ -115,25 +112,17 @@ func findProducts(products []Product, message string) []*Product {
 		return matchingProducts
 	}
 
-	// Ekstrak entitas dari pesan
-	doc, _ := prose.NewDocument(message)
-	var entities []string
-	for _, ent := range doc.Entities() {
-		entities = append(entities, ent.Text)
-	}
+	// Extract keywords from the message
+	keywords := extractKeywords(message)
+
+	// Membuat map untuk menyimpan produk yang sudah ditemukan
+	foundProducts := make(map[string]bool)
 
 	for i := range products {
 		productName := strings.ToLower(products[i].Nama)
-		// Gunakan Prose untuk ekstraksi kata-kata dari nama produk
-		productKeywords := extractKeywords(productName)
-		// Cocokkan kata kunci produk dengan entitas dalam pesan pengguna
-		for _, keyword := range productKeywords {
-			for _, entity := range entities {
-				if keyword == entity {
-					matchingProducts = append(matchingProducts, &products[i])
-					break
-				}
-			}
+		if matchKeywords(productName, keywords) {
+			matchingProducts = append(matchingProducts, &products[i])
+			foundProducts[productName] = true // Tandai produk sebagai sudah ditemukan
 		}
 	}
 
