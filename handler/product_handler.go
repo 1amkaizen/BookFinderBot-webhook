@@ -6,7 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
-	"unicode"
+
+	"github.com/jdkato/prose/v2"
 )
 
 // ANSI escape codes for coloring
@@ -69,66 +70,72 @@ func saveProductsToJson(products []Product, filename string) error {
 	return ioutil.WriteFile(filename, data, 0644)
 }
 
-// extractKeywords generates a list of keywords from the product name
+// matchKeywords memeriksa apakah nama produk cocok dengan setidaknya satu kata kunci
+func matchKeywords(productName string, keywords []string) bool {
+	for _, keyword := range keywords {
+		if strings.Contains(strings.ToLower(productName), keyword) {
+			return true
+		}
+	}
+	return false
+}
+
+// tokenize menggunakan prose untuk tokenisasi NLP yang lebih canggih
+func tokenize(message string) []string {
+	doc, _ := prose.NewDocument(message)
+	tokens := doc.Tokens()
+	var words []string
+	for _, token := range tokens {
+		if token.Text != "untuk" && token.Text != "pemula" {
+			words = append(words, token.Text)
+		}
+	}
+	return words
+}
+
+// extractKeywords menggunakan Prose untuk mengekstrak kata-kata dari nama produk
 func extractKeywords(name string) []string {
-	words := strings.Fields(name)
-	keywords := make([]string, len(words))
-	for i, word := range words {
-		keywords[i] = strings.ToLower(word)
+	doc, _ := prose.NewDocument(name)
+	var keywords []string
+	for _, tok := range doc.Tokens() {
+		if tok.Tag == "Noun" { // hanya mengambil kata benda
+			keywords = append(keywords, tok.Text)
+		}
 	}
 	return keywords
 }
 
+// findProducts menggunakan Prose untuk memperkaya pencarian produk
 func findProducts(products []Product, message string) []*Product {
 	message = strings.ToLower(message)
 	var matchingProducts []*Product
 
-	// Split pesan pengguna menjadi kata-kata individual
-	keywords := tokenize(message)
+	// Pemeriksaan jika pesan hanya terdiri dari satu kata atau lebih
+	if len(message) < 2 {
+		return matchingProducts
+	}
 
-	// Membuat map untuk menyimpan produk yang sudah ditemukan
-	foundProducts := make(map[string]bool)
+	// Ekstrak entitas dari pesan
+	doc, _ := prose.NewDocument(message)
+	var entities []string
+	for _, ent := range doc.Entities() {
+		entities = append(entities, ent.Text)
+	}
 
 	for i := range products {
 		productName := strings.ToLower(products[i].Nama)
-		if matchKeywords(productName, keywords) && !foundProducts[productName] {
-			matchingProducts = append(matchingProducts, &products[i])
-			foundProducts[productName] = true // Tandai produk sebagai sudah ditemukan
-		}
-	}
-
-	return matchingProducts
-}
-
-// tokenize membagi pesan menjadi kata-kata individual dengan mengambil tanda baca ke dalam pertimbangan
-func tokenize(message string) []string {
-	var tokens []string
-	builder := strings.Builder{}
-
-	for _, char := range message {
-		if unicode.IsLetter(char) {
-			builder.WriteRune(char)
-		} else {
-			if builder.Len() > 0 {
-				tokens = append(tokens, builder.String())
-				builder.Reset()
+		// Gunakan Prose untuk ekstraksi kata-kata dari nama produk
+		productKeywords := extractKeywords(productName)
+		// Cocokkan kata kunci produk dengan entitas dalam pesan pengguna
+		for _, keyword := range productKeywords {
+			for _, entity := range entities {
+				if keyword == entity {
+					matchingProducts = append(matchingProducts, &products[i])
+					break
+				}
 			}
 		}
 	}
 
-	if builder.Len() > 0 {
-		tokens = append(tokens, builder.String())
-	}
-
-	return tokens
-}
-
-// matchKeywords memeriksa apakah nama produk cocok dengan setidaknya satu kata kunci
-func matchKeywords(productName string, keywords []string) bool {
-	for _, keyword := range keywords {
-		if !strings.Contains(productName, keyword) {
-			return false
-		}
-	}
-	return true
+	return matchingProducts
 }
