@@ -239,9 +239,9 @@ func SaveUserDataToHTML(users []UserData, filename string) error {
 
 		var profilePhotoHTML string
 		if user.ProfilePhotoURL != "" {
-			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'><img src='" + user.ProfilePhotoURL + "' alt='Profile Photo' width='50px' class='rounded-circle img-fluid'>" + user.Username + "</a>"
+			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'><img src='" + user.ProfilePhotoURL + "' alt='Profile Photo' width='50px' class='rounded-circle img-fluid'><span>" + user.Username + "</span></a>"
 		} else {
-			profilePhotoHTML = "No photo"
+			profilePhotoHTML = "<a href='#" + user.Username + "' class='text-white nav-link' data-toggle='tab'><span>" + user.Username + "</span></a>"
 		}
 
 		_, err = file.WriteString("<tr> <td>" + strconv.Itoa(i+1) + "</td>  <td>" + profilePhotoHTML + "</td> <td>" + strconv.FormatInt(user.ID, 10) + "</td><td>" + user.FirstName + "</td><td>" + user.LastName + "</td><td>" + user.PhoneNumber + "</td><td>" + lastUserMessage + "</td><td>" + lastMessageTimeFormatted + "</td></tr>")
