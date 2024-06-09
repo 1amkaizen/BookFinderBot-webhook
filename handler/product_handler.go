@@ -70,29 +70,6 @@ func saveProductsToJson(products []Product, filename string) error {
 	return ioutil.WriteFile(filename, data, 0644)
 }
 
-// matchKeywords memeriksa apakah nama produk cocok dengan setidaknya satu kata kunci
-func matchKeywords(productName string, keywords []string) bool {
-	for _, keyword := range keywords {
-		if strings.Contains(strings.ToLower(productName), keyword) {
-			return true
-		}
-	}
-	return false
-}
-
-// tokenize menggunakan prose untuk tokenisasi NLP yang lebih canggih
-func tokenize(message string) []string {
-	doc, _ := prose.NewDocument(message)
-	tokens := doc.Tokens()
-	var words []string
-	for _, token := range tokens {
-		if token.Text != "untuk" && token.Text != "pemula" {
-			words = append(words, token.Text)
-		}
-	}
-	return words
-}
-
 func extractKeywords(name string) []string {
 	// Use jdokato/prose/v2 for tokenization
 	doc, _ := prose.NewDocument(name)
@@ -103,28 +80,54 @@ func extractKeywords(name string) []string {
 	return keywords
 }
 
+func extractEntities(message string) []string {
+	doc, _ := prose.NewDocument(message)
+	var entities []string
+	for _, entity := range doc.Entities() {
+		entities = append(entities, entity.Text)
+	}
+	return entities
+}
+
 func findProducts(products []Product, message string) []*Product {
 	message = strings.ToLower(message)
 	var matchingProducts []*Product
 
-	// Pemeriksaan jika pesan hanya terdiri dari satu kata atau lebih
 	if len(message) < 2 {
 		return matchingProducts
 	}
 
-	// Extract keywords from the message
-	keywords := extractKeywords(message)
+	// Tokenisasi pesan menggunakan NLP
+	keywords := tokenize(message)
 
-	// Membuat map untuk menyimpan produk yang sudah ditemukan
-	foundProducts := make(map[string]bool)
+	// Simpan kata kunci yang unik
+	uniqueKeywords := make(map[string]bool)
+	for _, keyword := range keywords {
+		uniqueKeywords[keyword] = true
+	}
 
+	// Cari produk yang cocok berdasarkan kata kunci dalam nama produk
 	for i := range products {
 		productName := strings.ToLower(products[i].Nama)
-		if matchKeywords(productName, keywords) {
+		if matchKeywords(productName, uniqueKeywords) {
 			matchingProducts = append(matchingProducts, &products[i])
-			foundProducts[productName] = true // Tandai produk sebagai sudah ditemukan
 		}
 	}
 
 	return matchingProducts
+}
+
+// Tokenisasi menggunakan pemisah kata sederhana
+func tokenize(message string) []string {
+	return strings.Fields(message)
+}
+
+// Cocokkan kata kunci dalam nama produk
+func matchKeywords(productName string, keywords map[string]bool) bool {
+	for keyword := range keywords {
+		if strings.Contains(productName, keyword) {
+			return true
+		}
+	}
+	return false
 }

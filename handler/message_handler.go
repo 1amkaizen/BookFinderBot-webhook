@@ -76,36 +76,50 @@ http://aigoretech.rf.gd/kirim-ulasan`
 	return ""
 }
 
+// handle generalmeaasge
 func handleGeneralMessage(update *tgbotapi.Update, bot *tgbotapi.BotAPI, products []Product, reviewLinks []ReviewLink, msg *tgbotapi.MessageConfig, botResponse *string) {
 	if strings.HasPrefix(update.Message.Text, "/ulasan ") {
-		productName := strings.TrimPrefix(update.Message.Text, "/ulasan ")
-		if link, found := findReviewLinkByName(reviewLinks, productName); found {
-			*botResponse = "📘 Link ulasan untuk " + productName + ":\n" + link
-		} else {
-			*botResponse = "⚠️ Link ulasan untuk " + productName + " tidak ditemukan.\nKamu bisa memberikan ulasan di sini: http://aigoretech.rf.gd/kirim-ulasan"
-		}
-		msg.Text = *botResponse
+		handleReviewLink(update, reviewLinks, botResponse, msg)
 	} else {
-		matchingProducts := findProducts(products, update.Message.Text)
-		if len(matchingProducts) > 0 {
-			for _, product := range matchingProducts {
-				*botResponse = "📖 Judul: " + product.Nama
-				for linkName, linkURL := range product.Links {
-					*botResponse += "\n🔗 [" + linkName + "](" + linkURL + ")"
-					break
-				}
+		handleProductSearch(update, bot, products, botResponse, msg)
+	}
+}
+
+// handle review
+func handleReviewLink(update *tgbotapi.Update, reviewLinks []ReviewLink, botResponse *string, msg *tgbotapi.MessageConfig) {
+	productName := strings.TrimPrefix(update.Message.Text, "/ulasan ")
+	if link, found := findReviewLinkByName(reviewLinks, productName); found {
+		*botResponse = "📘 Link ulasan untuk " + productName + ":\n" + link
+	} else {
+		*botResponse = "⚠️ Link ulasan untuk " + productName + " tidak ditemukan.\nKamu bisa memberikan ulasan di sini: http://aigoretech.rf.gd/kirim-ulasan"
+	}
+	msg.Text = *botResponse
+}
+
+// handle productsearch
+func handleProductSearch(update *tgbotapi.Update, bot *tgbotapi.BotAPI, products []Product, botResponse *string, msg *tgbotapi.MessageConfig) {
+	matchingProducts := findProducts(products, update.Message.Text)
+	if len(matchingProducts) > 0 {
+		var responseBuilder strings.Builder
+		var sentProducts = make(map[string]bool)
+
+		for _, product := range matchingProducts {
+			if _, found := sentProducts[product.Nama]; !found {
+				responseBuilder.WriteString(fmt.Sprintf("📖 Judul: %s\n", product.Nama))
 
 				var buttons []tgbotapi.InlineKeyboardButton
 				for linkName, linkURL := range product.Links {
+					responseBuilder.WriteString(fmt.Sprintf("🔗 [%s](%s)\n", linkName, linkURL))
 					button := tgbotapi.NewInlineKeyboardButtonURL(linkName, linkURL)
 					buttons = append(buttons, button)
 				}
-
+				responseBuilder.WriteString("\n")
 				keyboard := tgbotapi.NewInlineKeyboardMarkup(buttons)
-				msg.ReplyMarkup = &keyboard
 
-				if *botResponse != "" {
-					msg.Text = *botResponse
+				msg.Text = responseBuilder.String()
+				msg.ReplyMarkup = keyboard
+
+				if msg.Text != "" {
 					if _, err := bot.Send(msg); err != nil {
 						logrus.WithFields(logrus.Fields{
 							"error": err,
@@ -114,14 +128,18 @@ func handleGeneralMessage(update *tgbotapi.Update, bot *tgbotapi.BotAPI, product
 				} else {
 					logrus.Error("Bot response is empty, not sending message")
 				}
+
+				sentProducts[product.Nama] = true
+				responseBuilder.Reset() // Reset the builder for the next product
 			}
-		} else {
-			*botResponse = "⚠️ Produk tidak ditemukan."
-			msg.Text = *botResponse
 		}
+	} else {
+		*botResponse = "⚠️ Produk tidak ditemukan."
+		msg.Text = *botResponse
 	}
 }
 
+// get ptofile
 func getProfilePhotoURL(bot *tgbotapi.BotAPI, userID int64) string {
 	userProfilePhotos, err := bot.GetUserProfilePhotos(tgbotapi.UserProfilePhotosConfig{UserID: userID})
 	if err != nil {
