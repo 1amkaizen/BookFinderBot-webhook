@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
-	github.com/gofiber/fiber/v2 v2.52.4
+	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/jdkato/prose/v2 v2.0.0
 	github.com/sirupsen/logrus v1.9.3
 )
